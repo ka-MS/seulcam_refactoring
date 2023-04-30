@@ -1,0 +1,130 @@
+@charset "UTF-8";
+div.leftForm, #upload-box-form{
+    width: 100%;
+    margin: 20px;
+    float: left;
+}
+label {
+    display: block;
+    padding-top: 20px;
+    padding-bottom: 15px;
+    font-size: 14px;
+    line-height: 1.57;
+    float: left;
+    width: 100%;
+    
+}
+input.g-inputbox-medium, .selectBox{
+    width: 100%;
+    padding: 15px 9px 14px 10px;
+ 
+    height: 50px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+div.box-textarea > textarea{
+    width: 70%;
+    height: 131px;
+    padding: 17px 11px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    display: inline;
+    float: left;
+    min-width:50px;
+
+}
+.box-img-upload{
+    width: 115px;
+  height: 131px;
+margin-right:10px;
+margin-bottom:10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: "Quicksand", sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  cursor: pointer;
+  float:left;
+  background-color:#f8f9fc;
+  
+}
+
+#upload-box-form > div.box-form{
+	overflow:auto;
+}
+.drop-zone__prompt{
+    color: darkgrey;
+    font-size: 50px;
+}
+.drop-zone__input {
+  display: none;
+}
+input[type=button]{
+	margin-left:80px;
+	margin-right:3px;
+	background-color:#ffffff;
+	border:none;
+	cursor:pointer;
+	display:block;
+	
+}
+#upload-box-form> div:nth-child(1) > div:nth-child(3) > input
+,#upload-box-form> div:nth-child(1) > input{
+	margin-left: 170px;
+}
+
+.drop-zone__thumb {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color:honeydew;
+  background-size: cover;
+  position: relative;
+  background-size : contain;
+}
+
+.drop-zone__thumb::after {
+  content: attr(data-label);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 0 0;
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.75);
+  font-size: 12px;
+  text-align: center;
+}
+
+#plus_detail_form{
+	font-size:40px;
+	float:right;
+	margin-right:50px;
+	
+}
+#submit{
+	float:right;
+}
+#p_delete{
+	float:right;
+	margin-right:10px;
+	color:#858796;
+}
+
+input[readonly] {
+  background-color: #e2e2e2;
+  border:none;
+}
+.bottomButton{
+	float:left;
+	width: 100%;
+	 margin-bottom:20px;
+	margin-left:2px;
+box-sizing: border-box;
+padding-right:30px;
+margin-top:30px;
+}

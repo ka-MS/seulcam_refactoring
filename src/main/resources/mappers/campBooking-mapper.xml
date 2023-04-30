@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace= "CampBookingMapper">
+ 	<resultMap type="CampBooking" id="CampBookingResultMap">
+ 		<id property="bookingNo" 	column="BOOKING_NO"/>
+  		<result property="memberId" 				column="MEMBER_ID"/>
+  		<result property="siteNo" 				column="SITE_NO"/>
+  		<result property="bookName" 				column="BOOK_NAME"/>
+  		<result property="bookPhone" 				column="BOOK_PHONE"/>
+  		<result property="bookRequest" 				column="BOOK_REQUEST"/>
+  		<result property="bookPeople" 				column="BOOK_PEOPLE"/>
+  		<result property="firstDay" 				column="FIRST_DAY"/>
+  		<result property="lastDay" 				column="LAST_DAY"/>
+  		<result property="totalDay" 				column="TOTAL_DAY"/>
+  		<result property="bookIniPrice" 				column="BOOK_INI_PRICE"/>
+  		<result property="bookExtra" 				column="BOOK_EXTRA"/>
+  		<result property="bookUsePoint" 				column="BOOK_USE_POINT"/>
+  		<result property="bookGetPoint" 				column="BOOK_GET_POINT"/>
+  		<result property="bookTotalPrice" 				column="BOOK_TOTAL_PRICE"/>
+  		<result property="bookDate" 				column="BOOK_DATE"/>
+  		<result property="bookPayStatus" 				column="BOOK_PAY_STATUS"/>
+  		<result property="bookCancleStatus" 				column="BOOK_CANCLE_STATUS"/>
+  		<result property="bookRefundStatus" 				column="BOOK_REFUND_STATUS"/>
+ 		<collection property="camp" resultMap="CampResultMap" />
+ 		<collection property="campSite" resultMap="CampSiteResultMap" />
+ 	</resultMap>
+ 	<resultMap type="Camp" id="CampResultMap">
+  		<id property="contentId" column="CONTENTID" />
+		<result property="facltNm" column="FACLTNM" />
+		<result property="lineIntro" column="LINEINTRO" />
+		<result property="intro" column="INTRO" />
+		<result property="bizrno" column="BIZRNO" />
+		<result property="featureNm" column="FEATURENM" />
+		<result property="induty" column="INDUTY" />
+		<result property="lctCl" column="LCTCL" />
+		<result property="doNm" column="DONM" />
+		<result property="sigunguNm" column="SIGUNGUNM" />
+		<result property="zipcode" column="ZIPCODE" />
+		<result property="addr1" column="ADDR1" />
+		<result property="tel" column="TEL" />
+		<result property="mapX" column="MAPX" />
+		<result property="mapY" column="MAPY" />
+		<result property="homepage" column="HOMEPAGE" />
+		<result property="resveUrl" column="RESVEURL" />
+		<result property="tooltip" column="TOOLTIP" />
+		<result property="glampInnerFclty" column="GLAMPINNERFCLTY" />
+		<result property="caravInnerFclty" column="CARAVINNERFCLTY" />
+		<result property="operPdCl" column="OPERPDCL" />
+		<result property="operDeCl" column="OPERDECL" />
+		<result property="sbrsCl" column="SBRSCL" />
+		<result property="sbrsEtc" column="SBRSETC" />
+		<result property="animalCmgCl" column="ANIMALCMGCL" />
+		<result property="tourEraCl" column="TOURERACL" />
+		<result property="firstImageUrl" column="FIRSTIMAGEURL" />
+		<result property="blogCount" column="BLOGCOUNT" />
+		<result property="registAvi" column="REGISTAVI" />
+  	</resultMap>
+  	<resultMap type="CampSite" id="CampSiteResultMap">
+  		<id property="siteNo" column="SITE_NO" />
+  		<result property="siteName" column="SITE_NAME" />
+  		<result property="campId" column="CAMP_ID" />
+  		<result property="campName" column="CAMP_NAME" />
+  		<result property="siteChar" column="SITE_CHAR" />
+  		<result property="siteInfo" column="SITE_INFO" />
+  		<result property="siteIntro" column="SITE_INTRO" />
+  		<result property="standardPeople" column="STANDARD_PEOPLE" />
+  		<result property="maxPeople" column="MAX_PEOPLE" />
+  		<result property="excessCharge" column="EXCESS_CHARGE" />
+  		<result property="inTime" column="IN_TIME" />
+  		<result property="outTime" column="OUT_TIME" />
+  		<result property="sitePrice" column="SITE_PRICE" />
+  		<result property="siteCount" column="SITE_COUNT" />
+  		<result property="siteThumbnailName" column="SITE_THUMBNAIL_NAME" />
+  		<result property="siteThumbnailPath" column="SITE_THUMBNAIL_PATH" />
+  		<result property="siteThumbnailRename" column="SITE_THUMBNAIL_RENAME" />
+  		<result property="sCreateDate" column="S_CREATE_DATE" />
+ 	</resultMap>
+ 
+ 
+  	<insert id="bookingInsert" useGeneratedKeys="true" keyColumn="BOOKING_NO"  keyProperty="bookingNo">
+  		INSERT INTO CAMP_BOOKING_TBL VALUES(SEQ_BOOKING_NO.NEXTVAL,#{memberId},#{siteNo},#{bookName},#{bookPhone},#{bookRequest},#{bookPeople},#{firstDay},#{lastDay},#{totalDay},#{bookIniPrice},#{bookExtra},#{bookUsePoint},#{bookGetPoint},#{bookTotalPrice},DEFAULT,DEFAULT,DEFAULT,DEFAULT)
+  	</insert>
+  	<insert id="bStatusInsert" >
+  		BEGIN
+		    FOR I IN 0..#{totalDay}
+		    LOOP
+		    INSERT INTO BOOKING_STATUS VALUES(SEQ_BOOKING_NO.CURRVAL,#{siteNo},#{memberId},TO_DATE(#{sBookDate},'YYYY-MM-DD')+I);
+		    END LOOP;
+		END;
+  	</insert>
+  	<select id="selectBookCount" resultType="string">
+  		SELECT 
+  		MIN((SELECT SITE_COUNT FROM CAMP_SITE_TBL WHERE SITE_NO = #{siteNo})-COUNT(*)) 
+  		FROM BOOKING_STATUS 
+  		WHERE SITE_NO = #{siteNo}
+  		AND S_BOOK_DATE BETWEEN #{firstDay} AND (TO_DATE(#{lastDay} ,'YYYY-MM-DD')-1)
+  		GROUP BY S_BOOK_DATE
+  	</select>
+  	<select id="selectBookinginfo" resultMap="CampBookingResultMap">
+  		SELECT * FROM CAMP_BOOKING_TBL WHERE BOOKING_NO = #{bookingNo}
+  	</select>
+  	<select id="selectBookList"  resultMap="CampBookingResultMap" >
+	  	SELECT A.SITE_NO,A.MEMBER_ID,A.BOOKING_NO,A.FIRST_DAY,A.LAST_DAY,A.TOTAL_DAY,A.BOOK_TOTAL_PRICE,A.BOOK_DATE,A.BOOK_CANCLE_STATUS,B.CAMP_ID,B.CAMP_NAME,B.IN_TIME,B.OUT_TIME,C.FIRSTIMAGEURL 
+		FROM CAMP_BOOKING_TBL A,CAMP_SITE_TBL B,CAMP_TBL C 
+		<where>
+			AND MEMBER_ID = #{memberId} 
+			AND A.SITE_NO = B.SITE_NO 
+			AND B.CAMP_ID = C.CONTENTID
+		</where>
+		
+		order by BOOK_DATE desc
+  	</select>
+  	<select id="selectABookList"  resultMap="CampBookingResultMap" >
+	  	SELECT A.SITE_NO,A.MEMBER_ID,A.BOOKING_NO,A.FIRST_DAY,A.LAST_DAY,A.TOTAL_DAY,A.BOOK_TOTAL_PRICE,A.BOOK_DATE,A.BOOK_CANCLE_STATUS,B.CAMP_ID,B.CAMP_NAME,B.IN_TIME,B.OUT_TIME,C.FIRSTIMAGEURL 
+		FROM CAMP_BOOKING_TBL A,CAMP_SITE_TBL B,CAMP_TBL C 
+		<where>
+			AND A.SITE_NO = B.SITE_NO 
+			AND B.CAMP_ID = C.CONTENTID
+		</where>
+		order by BOOK_DATE desc
+  	</select>
+  	<update id="updateBookingStatus">
+  		UPDATE CAMP_BOOKING_TBL SET BOOK_CANCLE_STATUS = 'Y'
+  		WHERE BOOKING_NO = #{orderNo}
+  	</update>
+  	<delete id="deleteBookStatus">
+  		DELETE FROM BOOKING_STATUS WHERE BOOKING_NO=#{orderNo}
+  	</delete>
+</mapper>

@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace= "OrderMapper">
+  
+  <resultMap  type="Member" id="memberResultMap">
+ 
+  <id property="memberId" 	column="MEMBER_ID"/>
+  		<result property="memberNickname" 	column="MEMBER_NICKNAME"/>
+  		<result property="memberEmail" 	column="MEMBER_EMAIL"/>
+  		<result property="memberRecommend" 	column="MEMBER_RECOMMEND"/>
+  		<result property="memberName" 	column="MEMBER_NAME"/>
+  		<result property="memberPhone" 	column="MEMBER_PHONE"/>
+  		<result property="memberZip" 	column="MEMBER_ZIP"/>
+  		<result property="memberAddress1" 	column="MEMBER_ADDRESS1"/>
+  		<result property="memberAddress2" 	column="MEMBER_ADDRESS2"/>
+  		<result property="memberAccountName" 	column="MEMBER_ACCOUNT_NAME"/>
+  		<result property="memberAccountBank" 	column="MEMBER_ACCOUNT_BANK"/>
+  		<result property="memberAccountNumber" 	column="MEMBER_ACCOUNT_NUMBER"/>
+  		<result property="adminCheck" 	column="ADMIN_CHECK"/>
+  		<result property="memberDate" 	column="MEMBER_DATE"/>
+  		<result property="totalPoint" 	column="TOTAL_POINT"/>
+  		<result property="memberImage" 	column="MEMBER_IMAGE"/>
+  		<result property="memberFilename" 	column="MEMBER_FILENAME"/>
+  		<result property="memberFilername" 	column="MEMBER_FILERNAME"/>
+  		<result property="memberCategory" 	column="MEMBER_CATEGORY"/>
+  </resultMap>
+  
+  <select id="selectMemberInfo" resultMap="memberResultMap">
+  SELECT * FROM MEMBER_TABLE WHERE MEMBER_ID=#{memberId}
+  </select>
+  
+  <select id="selectTotalPoint" resultMap="memberResultMap">
+   SELECT TOTAL_POINT FROM MEMBER_TABLE WHERE MEMBER_ID=#{memberId}
+  </select>
+  
+  <update id="updateAddress" >
+  UPDATE MEMBER_TABLE 
+  SET MEMBER_ZIP=#{memberZip},
+  MEMBER_ADDRESS1=#{memberAddress1},
+  MEMBER_ADDRESS2=#{memberAddress2}
+  WHERE MEMBER_ID=#{memberId}
+  </update>
+   <update id="updateUsePoint">
+  UPDATE MEMBER_TABLE
+  SET TOTAL_POINT=TOTAL_POINT-To_Number(#{point})
+  WHERE MEMBER_ID=#{memberId}
+  </update>
+   <update id="updateGetPoint">
+  UPDATE MEMBER_TABLE
+  SET TOTAL_POINT=TOTAL_POINT+To_Number(#{point})
+  WHERE MEMBER_ID=#{memberId}
+  </update>
+  
+   <resultMap  type="Order" id="orderResultMap">
+ 
+  <id property="orderNo" 	column="ORDER_NUMBER"/>
+  		<result property="memberId" 				column="MEMBER_ID"/>
+  		<result property="memberName" 				column="ORDER_NAME"/>
+  		<result property="memberPhone" 				column="ORDER_PHONE"/>
+  		<result property="orderMessage" 			column="ORDER_MESSAGE"/>
+  		<result property="orderAddressPost" 		column="ORDER_POST"/>
+  		<result property="orderAddress1" 			column="ORDER_ADDRESS1"/>
+  		<result property="orderAddress2" 			column="ORDER_ADDRESS2"/>
+  		<result property="orderMainProductName" 	column="ORDER_MAIN_PRODUCT_NAME"/>
+  		<result property="orderMainFileRename" 		column="ORDER_MAIN_FILE_RENAME"/>
+  		<result property="orderDate" 				column="ORDER_DATE"/>
+  		<result property="payStatus" 				column="PAY_STATUS"/>
+  		<result property="dirivaryStatus" 			column="DILIVERY_STATUS"/>
+  		<result property="cancleStatus" 			column="CANCLE_STATUS"/>
+  		<result property="refundStatus" 			column="REFUND_STATUS"/>
+  		
+  </resultMap>
+  
+  <insert id="insertOrder" useGeneratedKeys="true" keyColumn="ORDER_NUMBER"  keyProperty="orderNo">
+  INSERT INTO ORDER_TBL 
+  VALUES(SEQ_ORDER.NEXTVAL,#{memberId}, #{memberName}, #{memberPhone}, #{orderMessage},
+   #{orderAddressPost},#{orderAddress1},#{orderAddress2},#{orderMainProductName},
+   #{orderMainFileRename},DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT)
+  </insert>
+  
+  <select id="selectPrintOrder" resultMap="orderResultMap">
+  SELECT * FROM ORDER_TBL
+  WHERE ORDER_NUMBER=#{orderNo}
+  </select>
+  <select id="selectDilivaryCount" resultMap="orderResultMap">
+   SELECT COUNT(*) FROM ORDER_TBL
+   WHERE MEMBER_ID=#{memberId} AND DILIVERY_STATUS=#{dirivaryStatus}
+  </select>
+  
+  <update id="updateCompleteAddress">
+  UPDATE ORDER_TBL
+  SET ORDER_POST=#{orderAddressPost},ORDER_ADDRESS1=#{orderAddress1},ORDER_ADDRESS2=#{orderAddress2}
+  WHERE ORDER_NUMBER=#{orderNo}
+  </update>
+  
+  <update id="updateDilivary">
+  UPDATE ORDER_TBL
+  SET DILIVERY_STATUS=#{dirivaryStatus}
+  WHERE ORDER_NUMBER=#{orderNo}
+  
+  </update>
+  
+  <update id="updateDilivaryStatus">
+    UPDATE ORDER_TBL
+  	SET DILIVERY_STATUS='구매확정'
+  	WHERE ORDER_NUMBER=#{orderNo}
+  </update>
+  
+	<update id="updateOrderCancle">
+		UPDATE ORDER_TBL
+		SET DILIVERY_STATUS='구매취소',CANCLE_STATUS='Y'
+		WHERE ORDER_NUMBER=#{orderNo}
+	</update>
+  
+ 
+  
+  <select id="selectCompleteList" resultMap="orderResultMap">
+  SELECT * FROM ORDER_TBL
+  WHERE MEMBER_ID=#{memberId} ORDER BY ORDER_NUMBER DESC
+  </select>
+  
+  <select id="selectChangeCompleteList" resultMap="orderResultMap">
+  SELECT * FROM ORDER_TBL
+  WHERE MEMBER_ID=#{memberId} AND DILIVERY_STATUS=#{dirivaryStatus} ORDER BY ORDER_NUMBER DESC
+  </select>
+  
+  <select id="selectAllOrder" resultMap="orderResultMap">
+    SELECT * FROM ORDER_TBL ORDER BY ORDER_NUMBER DESC
+  </select>
+  
+
+ <resultMap  type="OrderProduct" id="orderProductResultMap"> 
+  <id property="orderProductNo" 	column="ORDER_PRODUCT_NUMBER"/>
+  		<result property="productNo" 	column="PRODUCT_NO"/>
+  		<result property="memberId" 	column="MEMBER_ID"/>
+  		<result property="orderCount" 	column="ORDER_COUNT"/>
+  		<result property="orderNo" 	column="ORDER_NUMBER"/>
+  		<result property="orderStatus" 	column="ORDER_STATUS"/>
+  		
+  </resultMap>
+  
+  <insert id="insertOrderProduct">
+  INSERT INTO ORDER_PRODUCT_TBL
+  VALUES(SEQ_ORDER_PRODUCTNO.NEXTVAL,#{productNo},#{memberId},#{orderCount},#{orderNo},#{orderStatus})
+  </insert>
+    
+    <insert id="insertProduct" parameterType="list">
+ 	INSERT INTO ORDER_PRODUCT_TBL
+	SELECT SEQ_ORDER_PRODUCTNO.NEXTVAL AS ORDER_NUMBER, A.*
+	FROM ( 
+ 	<foreach collection="orders" item="item" separator="UNION ALL" >
+ 	SELECT	
+ 	#{item.productNo} AS PRODUCT_NO ,#{item.memberId} AS MEMBER_ID,#{item.orderCount} AS ORDER_COUNT,
+ 	#{item.orderNo} AS ORDER_NUMBER,#{item.orderStatus} AS ORDER_STATUS
+ 	  FROM DUAL
+ 	</foreach>)A
+  </insert> 
+  
+  
+  
+  <select id="selectProductInfo" resultMap="orderProductResultMap">
+  SELECT * FROM ORDER_PRODUCT_TBL WHERE MEMBER_ID=#{memberId} AND ORDER_STATUS IS NULL AND ORDER_NUMBER ='0'
+  </select>
+  
+  <select id="selectProduct" resultMap="orderProductResultMap">
+   SELECT * FROM ORDER_PRODUCT_TBL WHERE ORDER_NUMBER=#{orderNo}
+  </select>
+  
+  <select id="selectOrderPNo" resultMap="orderProductResultMap">
+  SELECT PRODUCT_NO FROM ORDER_PRODUCT_TBL WHERE ORDER_NUMBER=#{orderNo}
+  </select>
+  
+ <update id="updateOrderProduct">
+  UPDATE ORDER_PRODUCT_TBL
+  SET ORDER_NUMBER=#{orderNo}, ORDER_STATUS='Y' WHERE MEMBER_ID=#{memberId} AND ORDER_STATUS IS NULL AND ORDER_NUMBER ='0'
+  </update>
+  
+  <delete id="deleteOrderProduct">
+  DELETE FROM ORDER_PRODUCT_TBL
+  WHERE MEMBER_ID=#{memberId} AND ORDER_STATUS IS NULL AND ORDER_NUMBER ='0'
+  </delete>
+  
+  
+  <resultMap  type="OrderPay" id="orderPayResultMap"> 
+  <id property="payNo" 	column="PAY_NO"/>
+  		<result property="orderNo" 			column="ORDER_NO"/>
+  		<result property="memberId" 		column="MEMBER_ID"/>
+  		<result property="imp_uid" 			column="IMP_UID"/>
+  		<result property="merchant_uid" 	column="MERCHANT_UID"/>
+  		<result property="payDate" 			column="PAY_DATE"/>
+  		<result property="payPrice" 		column="PAY_PRICE"/>
+  		<result property="productPrice" 	column="PRODUCT_PRICE"/>
+  		<result property="usePoint" 		column="USE_POINT"/>
+  		<result property="getPoint" 		column="GET_POINT"/>
+  		<result property="payStatus" 		column="PAY_STATUS"/>
+  		<result property="payType" 			column="PAY_TYPE"/>
+  		
+  </resultMap>
+  
+  <insert id="insertPay">
+  INSERT INTO PAY_TBL
+  VALUES(SEQ_PAYNO.NEXTVAL,#{orderNo},#{memberId},#{imp_uid},#{merchant_uid},DEFAULT,#{payPrice},#{productPrice},#{usePoint},#{getPoint},DEFAULT,#{payType})
+  </insert>
+  
+  <select id="selectPrintPay" resultMap="orderPayResultMap">
+  SELECT * FROM PAY_TBL WHERE ORDER_NO=#{orderNo} AND PAY_TYPE='P'
+  </select>
+  
+  
+    <resultMap  type="OrderCancle" id="orderCancleResultMap"> 
+  <id property="refundNo" 	column="REFUND_NO"/>
+  		<result property="orderNo" 			column="ORDER_NO"/>
+  		<result property="memberId" 		column="MEMBER_ID"/>
+  		<result property="imp_uid" 			column="IMP_UID"/>
+  		<result property="merchant_uid" 	column="MERCHANT_UID"/>
+  		<result property="refundDate" 		column="REFUND_DATE"/>
+  		<result property="refundPrice" 		column="REFUND_PRICE"/>
+  		<result property="refundPoint" 		column="REFUND_POINT"/>
+  		<result property="payType" 			column="PAY_TYPE"/>
+  		
+  </resultMap>
+  
+  
+  <insert id="InsertRefundInfo">
+  INSERT INTO REFUND_TBL
+  VALUES(SEQ_REFUNDNO.NEXTVAL,#{orderNo},#{memberId},#{imp_uid},#{merchant_uid},DEFAULT,#{refundPrice},#{refundPoint},#{payType})
+  </insert>
+ 
+  <update id="UpdateRefundStatus">
+  UPDATE ORDER_TBL
+  SET DILIVERY_STATUS='환불완료',REFUND_STATUS='Y'
+  WHERE ORDER_NUMBER=#{orderNo}
+  </update>
+  
+  <resultMap type="Product" id="productResultMap">
+  		<id 	property="productNo" 		column="PRODUCT_NO"/>
+  		<result property="productName" 		column="PRODUCT_NAME"/>
+  		<result property="category" 		column="CATEGORY"/>
+  		<result property="productPrice" 	column="PRODUCT_PRICE"/>
+  		<result property="productColor" 	column="PRODUCT_COLOR"/>
+  		<result property="productStock" 	column="PRODUCT_STOCK"/>
+  		<result property="mainFileName" 	column="MAIN_FILE_NAME"/>
+  		<result property="mainFilePath" 	column="MAIN_FILE_PATH"/>
+  		<result property="mainFileRename" 	column="MAIN_FILE_RENAME"/>
+  		<result property="updateDate" 		column="UPDATE_DATE"/>
+  		<result property="brandName" 		column="BRAND_NAME"/>
+  		<result property="productMaterial" 	column="PRODUCT_MATERIAL"/>
+  		<result property="saleCount" 		column="SALE_COUNT"/>
+
+  		
+  	</resultMap>
+  	
+  	<update id="updatePCountPlus">
+  	UPDATE PRODUCT_TBL
+  	SET SALE_COUNT=SALE_COUNT + 1
+  	WHERE PRODUCT_NO=#{productNo}
+  	
+  	</update>
+  	
+  	<update id="updatePCountMinus">
+  	UPDATE PRODUCT_TBL
+  	SET SALE_COUNT=SALE_COUNT - 1
+  	WHERE PRODUCT_NO=#{productNo}
+  	
+  	</update>
+  
+ 
+  </mapper>

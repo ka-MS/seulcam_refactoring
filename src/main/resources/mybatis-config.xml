@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+  <!-- 나는 마이바티스다 라는 선언 -->
+<configuration>
+	<settings>
+		
+		<setting name="jdbcTypeForNull" value="NULL"/>
+		<!-- 만약에 null 데이터가 전달되었으면 빈칸이 아닌 NULL로 인식하도록 설정 -->
+	</settings>
+	<!-- 타입엘리스 사용 -->
+	<typeAliases>
+		<typeAlias type="com.kh.seulcam.member.domain.Member" alias="Member"/>
+		<typeAlias type="com.kh.seulcam.camp.domain.Camp" alias="Camp"/>
+		<typeAlias type="com.kh.seulcam.camp.domain.CampReview" alias="CampReview"/>
+		<typeAlias type="com.kh.seulcam.camp.domain.CampLike" alias="CampLike"/>
+		<typeAlias type="com.kh.seulcam.camp.domain.CampSite" alias="CampSite"/>
+		<typeAlias type="com.kh.seulcam.campBooking.domain.CampBooking" alias="CampBooking"/>
+		<typeAlias type="com.kh.seulcam.campBooking.domain.BookingStatus" alias="BookingStatus"/>
+		<typeAlias type="com.kh.seulcam.product.domain.Product" alias="Product"/>
+		<typeAlias type="com.kh.seulcam.product.domain.Brand" alias="Brand"/>
+		<typeAlias type="com.kh.seulcam.cart.domain.Cart" alias="Cart"/>
+		<typeAlias type="com.kh.seulcam.product.domain.Detail" alias="Detail"/>
+		<typeAlias type="com.kh.seulcam.product.domain.Review" alias="Review"/>
+		<typeAlias type="com.kh.seulcam.order.domain.Order" alias="Order"/>
+		<typeAlias type="com.kh.seulcam.order.domain.OrderProduct" alias="OrderProduct"/>
+		<typeAlias type="com.kh.seulcam.order.domain.OrderPay" alias="OrderPay"/>
+		<typeAlias type="com.kh.seulcam.order.domain.OrderCancle" alias="OrderCancle"/>
+		<typeAlias type="com.kh.seulcam.point.domain.Point" alias="Point"/>
+	</typeAliases>
+	<mappers>
+		<mapper resource="mappers/member-mapper.xml"></mapper>
+		<mapper resource="mappers/camp-mapper.xml"></mapper>
+		<mapper resource="mappers/campBooking-mapper.xml"></mapper>
+		<mapper resource="mappers/product-mapper.xml"></mapper>
+		<mapper resource="mappers/cart-mapper.xml"></mapper>
+		<mapper resource="mappers/campAdmin-mapper.xml"></mapper>
+		<mapper resource="mappers/order-mapper.xml"></mapper>
+		<mapper resource="mappers/productReview-mapper.xml"></mapper>
+		<mapper resource="mappers/brand-mapper.xml"></mapper>
+		<mapper resource="mappers/point-mapper.xml"></mapper>
+	</mappers>
+</configuration>

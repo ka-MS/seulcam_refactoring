@@ -1,0 +1,254 @@
+@charset "UTF-8";@charset "UTF-8";
+*{
+	box-sizing: border-box;
+}
+body{
+	    font-size: 14px;
+    line-height: 1.5;
+    color: #000;
+    background-color: #f1f1f1;
+}
+}
+.body-wrapper, .header-wrapper{
+	position: relative;
+	max-width:768px;
+	
+}
+.body-wrapper{
+	    max-width: 768px;
+    margin: 60px auto;
+    background-color: white;
+    min-height: 100vh;
+}
+
+
+.layout-wrapper{
+	background-color:white;
+	padding: 5%;
+}
+a{
+	text-decoration:none;
+}
+
+.go-back {
+    display: inline-flex;
+    position: relative;
+    width: 40px;
+    height: 40px;
+    padding: 5px;
+}
+
+.go-back img {
+    width: 25px;
+    height: 25px;
+}
+.go-home {
+    display: inline-flex;
+    position: relative;
+    width: 40px;
+    height: 40px;
+    padding: 5px;
+}
+.home-layout {
+    display: flex;
+    position: absolute;
+    align-items: center;
+    top: 8px;
+    right: 5px;
+}
+.logo {
+    width: 95px;
+    height: 40px;
+}
+
+.back-layout {
+    display: flex;
+    position: absolute;
+    align-items: center;
+    top: 5px;
+    left: 5px;
+}
+.header-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    height: 50px;
+    position: relative;
+    max-width:768px;
+   
+}
+header {
+    position: fixed;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    height: 50px;
+    background-color: rgb(255, 255, 255);
+    z-index: 1;
+    max-width: 100%;
+    margin: 0 auto;
+    max-width:768px;
+}
+#header-block {
+    height: 50px;
+     max-width:768px;
+}
+h2 {
+    font-size: 18px;
+}
+button {
+    border: 0;
+    background: 0 0;
+    cursor: pointer;
+  
+}
+header > h1 {
+    font-size: 0;
+}
+.star {
+    position: relative;
+    font-size: 1.5rem;
+    color: #ddd;
+  }
+  
+  .star input {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+  
+  .star span {
+    width: 100%;
+    position: absolute; 
+    left: 0;
+    color: red;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  
+  .cm-line{
+      height: 10px;
+    background-color: #f1f1f1;
+    width:100%;
+  }
+  .review-information{
+    display: flex;
+    margin: 0 15px 20px;
+    border-bottom: 1px solid #f1f1f1;
+    justify-content: space-between;
+}
+.review-product-information {
+    display: flex;
+    max-height: 54px;
+    align-items: center;
+}
+.review-product-information_thumbnail >img{
+  position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 100%;
+    border-radius: 4px;
+    transform: translate(-50%,-50%);
+    -o-object-fit: contain;
+    object-fit: contain;
+
+}
+.review-product-information_thumbnail{
+	overflow: hidden;
+    position: relative;
+    width: 45px;
+    height: 54px;
+}
+.review-information>span{
+	align:right;
+	margin-top:15px;
+}
+.review-product-information-text{
+	
+	width: calc(100% - 55px);
+	    margin-left: 10px;
+	    font-size: 12px;
+}
+.review-grade{
+	margin-top:10px;
+    height: 20px;
+    padding-bottom: 10px;
+    width:90%;
+}
+.review-contents{
+	font-size:14px;
+	height: 50px;
+}
+.button{
+	font-size:14px;
+    font-size: 16px;
+    box-sizing:content-box;
+    overflow: auto;
+    position: relative;
+    
+    
+}
+#review_modi{
+	float:right;
+	background-color: #0078ff;
+    color: #fff;
+     width:15%;
+     height:25px;
+       border-radius: 4px;
+       margin-bottom:10px;
+}
+#review_del{
+		float:right;
+	background-color: #ccc;
+    color: #fff;
+    border-radius: 4px;
+    height:25px;
+    width:15%;
+}
+.image_panel > img{
+	width:107px;
+	height:107px;
+}
+.image_panel > img:hover{
+	width: auto;
+	height:auto;
+}
+
+.noreview{
+	    display: flex;
+    height: 300px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+        margin: 10px;
+    box-shadow: 0px 1px 2px 0px rgb(0 0 0 / 25%);
+}
+
+h3{
+	    text-align: center;
+}
+.goreview{
+	  margin: 10px;
+    padding: 6px 30px 5px 30px;
+    color: #0078ff;
+    border: 1px solid #0078ff;
+    border-radius: 5px;
+}
+
+
+  .check-bar {
+    display: flex;
+    padding: 15px 15px 0px 15px;
+    justify-content: space-between;
+    align-items: center;
+}
+img {
+    max-width: 100%;
+    border: none;
+    line-height: 0;
+    vertical-align: top;
+}
